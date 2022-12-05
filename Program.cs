@@ -1,4 +1,4 @@
-﻿using System.CodeDom.Compiler;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections;
 using System.ComponentModel;
@@ -16,42 +16,60 @@ class Result
 {
 
     /*
-     * Complete the 'plusMinus' function below.
+     * Complete the 'miniMaxSum' function below.
      *
      * The function accepts INTEGER_ARRAY arr as parameter.
+     
+     Given five positive integers, find the minimum and maximum values that can be calculated by summing exactly four of the five integers. Then print the respective minimum and maximum values as a single line of two space-separated long integers.
+
+Example
+arr=[1,3,5,7,9]
+The minimum sum is 1+3+5+7=16 and the maximum sum is 3+5+7+9=24. The function prints
+16 24
+
      */
 
-    public static void plusMinus(List<int> arr)
+    public static void miniMaxSum(List<int> arr)
     {
-        double n = arr.Count;
-        double plus = 0, minus = 0, zeros = 0;
+        long min = arr[0], max = arr[0];
+        long summin = 0,summax = 0;
+        int ifequal = 1;
+        int arrTest=arr[0];
+        for(int i=0;i<arr.Count;i++)
+        {
+            if (arr[i] != arrTest)
+                ifequal = 0;
+        }
         foreach (var i in arr)
         {
-            if (i > 0)
-                plus++;
-            if (i < 0)
-                minus++;
-            if (i == 0)
-                zeros++;
+            if (i <= min)
+                min = i;
+            if (i >= max)
+                max = i;
         }
-        string nplus = (plus / n).ToString("0.000000");
-        string nminus = (minus / n).ToString("0.000000");
-        string nzeros = (zeros / n).ToString("0.000000"); ;
-        System.Console.WriteLine("{0} ", nplus);
-        System.Console.WriteLine("{0} ", nminus);
-        System.Console.WriteLine("{0} ", nzeros);
+        foreach (var y in arr)
+        {
+            if (y != min||ifequal==1)
+                summax += y;
+            if (y != max || ifequal == 1)
+                summin += y;
+        }
+        if (ifequal == 1)
+        {
+            summax -= arr[0];
+            summin -= arr[0];
+        }
+        System.Console.WriteLine("{0} {1} ", summin,summax);
     }
-
 }
 
 class Solution
 {
     public static void Main(string[] args)
     {
-        int n = Convert.ToInt32(Console.ReadLine().Trim());
 
         List<int> arr = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(arrTemp => Convert.ToInt32(arrTemp)).ToList();
 
-        Result.plusMinus(arr);
+        Result.miniMaxSum(arr);
     }
 }
